@@ -1,0 +1,47 @@
+import psutil
+
+def system_health_check():
+
+    cpu_per = int(input("Enter CPU usage (%): "))
+    memory_per = int(input("Enter Memory usage (%): "))
+    disk_per = int(input("Enter Disk usage (%): "))
+     
+    sys_performance =    {
+                    "CPU" : psutil.cpu_percent(interval=1),
+                    "Memory" : psutil.virtual_memory().percent,
+                    "Disk"  : psutil.disk_usage("/").percent
+                }
+
+    usage = {
+                "CPU": cpu_per,
+                "Memory": memory_per,
+                "Disk": disk_per
+                }
+    print("\nSystem Health Status")
+    
+    for key in sys_performance:
+        print(f"{key} Usage: {sys_performance[key]}%")
+
+        if sys_performance[key] > usage[key]:
+            print(f"{key} Alert Email sent....\n")
+        else:
+            print(f"{key} in Safe state\n")
+        
+system_health_check()
+
+
+output:-
+      Enter CPU usage (%): 3
+      Enter Memory usage (%): 20
+      Enter Disk usage (%): 12
+
+      System Health Status
+      CPU Usage: 7.6%
+      CPU Alert Email sent....
+
+      Memory Usage: 29.0%
+      Memory Alert Email sent....
+
+      Disk Usage: 0.7%
+      Disk in Safe state
+      
