@@ -1,0 +1,29 @@
+import requests
+import json
+
+API_URL = "https://ghibliapi.vercel.app/films"
+
+def fetch_movies():
+    response = requests.get(API_URL)
+    movies = response.json()
+    movies_list = []
+
+    for movie in movies:
+        movies_list.append({
+            "title" : movie["title"],
+            "director" : movie["director"],
+            "release_date" : movie["release_date"],
+            "running_time" : movie["running_time"]
+        })
+    return movies_list  
+movies_list = fetch_movies()
+
+for movie in movies_list[:5]:
+    print(f"Title        : {movie['title']}")
+    print(f"Director     : {movie['director']}")
+    print(f"Release Year : {movie['release_date']}")
+    print(f"running_time : {movie['running_time']}")
+    print(f"-" * 35)
+
+with open("movies_output.json", "w", encoding="utf-8") as f:
+    json.dump(movies_list, f, indent=4)
